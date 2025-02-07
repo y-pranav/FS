@@ -76,7 +76,7 @@ class Solution {
         for (int right = 0; right < n; right++) {
             temp += a[right];
             mp.put(a[right], mp.getOrDefault(a[right], 0) + 1);
-            while ((mp.get(a[right]) > mf || temp > ma) && left <= right) {
+            while (mp.get(a[right]) > mf || temp > ma) {
                 mp.put(a[left], mp.get(a[left]) - 1);
                 temp -= a[left];
                 left++;
