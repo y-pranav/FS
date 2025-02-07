@@ -84,5 +84,7 @@ class Solution {
             res = Math.max(right - left + 1, res);
         }
         System.out.println(res);
+        sc.close();
+
     }
 }

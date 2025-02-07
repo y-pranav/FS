@@ -84,5 +84,7 @@ class Solution {
             
         }
         System.out.println(res);
+        sc.close();
+
     }
 }

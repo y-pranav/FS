@@ -61,8 +61,7 @@ public class P2 {
         Scanner sc = new Scanner(System.in);
         String[] tokens = sc.nextLine().split(" ");
         int n = tokens.length;
-        if (n == 0) return;
-
+  
         int[] a = new int[n];
         for (int i = 0; i < n; i++) {
             a[i] = Integer.parseInt(tokens[i]);
@@ -100,6 +99,7 @@ public class P2 {
         for (int val : res) {
             System.out.print(val + " ");
         }
+        sc.close();
     }
 }
 

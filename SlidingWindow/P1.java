@@ -84,5 +84,7 @@ class P1 {
             }
         }
         System.out.println(res == Long.MAX_VALUE ? -1 : res);
+        sc.close();
+
     }
 }

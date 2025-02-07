@@ -95,3 +95,69 @@ Constraints:
 4. 1 <= f <= 10
  
 */
+
+import java.util.*;
+
+class P5 {
+    static PriorityQueue<int[]> pq;
+    public static int priority(int key, int val, int f) {
+        return val * ((int) Math.pow(key, f));
+    }
+    public static int solve(HashMap<Integer, Integer> mp, int x, int f) {
+        int temp = 0;
+        pq = new PriorityQueue<>((u, v) -> {
+            int cmp = Integer.compare(v[0], u[0]);
+            if (cmp == 0) {
+                return Integer.compare(v[1], u[1]); // tie-break -> higher treasure value comes first
+            }
+            return cmp;
+        });
+        
+        for (int key: mp.keySet()) {
+            int val = mp.get(key);
+            int p = priority(key, val, f);
+            pq.offer(new int[] {p, key, val});
+        }
+
+        for (int i = 0; i < x; i++) {
+            int[] c = pq.poll();
+            temp += c[1] * c[2];
+        }
+        return temp;
+    }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt(), x = sc.nextInt(), f = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        int temp;
+        int[] res = new int[n - k + 1];
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int i = 0; i < k; i++) {
+            mp.put(a[i], mp.getOrDefault(a[i], 0) + 1);
+        }
+
+        // computations in first window
+        temp = solve(mp, x, f);
+        res[0] = temp;
+
+        int left = 0;
+        for (int right = k; right < n; right++) {
+            // slide the window
+            mp.put(a[left], mp.get(a[left]) - 1);
+            if (mp.get(a[left]) == 0) mp.remove(a[left]);
+            mp.put(a[right], mp.getOrDefault(a[right], 0) + 1);
+
+            // computations in subsequent windows
+            temp = solve(mp, x, f);
+
+            res[right - k + 1] = temp;
+            left++;
+        }
+        System.out.println(Arrays.toString(res));
+        sc.close();
+    }
+}

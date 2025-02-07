@@ -93,5 +93,7 @@ class P4 {
             left++;
         }
         System.out.println(res);
+        sc.close();
+
     }
 }
