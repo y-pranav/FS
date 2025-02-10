@@ -73,29 +73,27 @@ class P6 {
         Scanner sc = new Scanner(System.in);
         String[] input = sc.nextLine().split(" ");
         String s = input[0];
-        int n = s.length();
         int k = Integer.parseInt(input[1]);
-
-        int digitalCode = Integer.parseInt(s);
-        int num = 0;
-        for (int i = 0; i < k; i++) {
-            num = (num * 10) + Integer.parseInt(s.charAt(i) + "");
-        }
-
-        int res = 0;
-        // first window
-        if (isDiv(digitalCode, num) && isPrime(num)) res++;
+        int n = s.length();
         
-        // subsequent windows
-        for (int i = k; i < n; i++) {
-            // slide the window
-            num %= Math.pow(10, k - 1);
-            num = (num * 10) + Integer.parseInt(s.charAt(i) + "");
-
-            if (isDiv(digitalCode, num) && isPrime(num)) res++;
+        int digitalCode = Integer.parseInt(s);
+        int res = 0;
+        int num = 0;
+        int pow10k = (int) Math.pow(10, k);
+        
+  
+        for (int i = 0; i < n; i++) {
+            num = num * 10 + (s.charAt(i) - '0');
+            
+            // at least k size window
+            if (i >= k - 1) {
+                int currentWindow = num % pow10k;
+                
+                if (isDiv(digitalCode, currentWindow) && isPrime(currentWindow))
+                    res++;
+            }
         }
         System.out.println(res);
         sc.close();
     }
-    
 }
