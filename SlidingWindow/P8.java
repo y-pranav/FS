@@ -69,20 +69,20 @@ public class P8 {
         
         PriorityQueue<Integer> pq1 = new PriorityQueue<>();
         PriorityQueue<Integer> pq2 = new PriorityQueue<>(Collections.reverseOrder());
-        for (int i = 0; i < r; i++) {
-            pq1.offer(nums[i]);
-            pq2.offer(nums[i]);
-        }
-        
+
         int left = 0;
-        int res = Math.max(pq2.poll() - pq1.poll(), Integer.MIN_VALUE);
-        for (int right = r; right < n; right++) {
-            pq1.remove(nums[left]);
-            pq2.remove(nums[left]);
+        int res = Integer.MIN_VALUE;
+        for (int right = 0; right < n; right++) {
             pq1.offer(nums[right]);
             pq2.offer(nums[right]);
-            res = Math.max(pq2.peek() - pq1.peek(), res);
-            left++;
+
+            // slide window only if window size is at least 'r'
+            if (right >= r - 1) {
+                res = Math.max(pq2.peek() - pq1.peek(), res);
+                pq1.remove(nums[left]);
+                pq2.remove(nums[left]);
+                left++;
+            }
         }
         System.out.println(res);
         sc.close();
