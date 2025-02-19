@@ -54,3 +54,93 @@
 // Shelf 4: [8]
 // Shelf 5: [7]
 
+
+import java.util.*;
+
+class P15 {
+    public static TreeNode buildTree(int[] a) {
+        Queue<TreeNode> q = new LinkedList<>();
+        TreeNode root = new TreeNode(a[0]);
+        q.offer(root);
+
+        int i = 1, n = a.length;
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+
+            if (cur.left == null && i < n && a[i] != -1) {
+                cur.left = new TreeNode(a[i]);
+                q.offer(cur.left);
+            }
+            i++;
+
+            if (cur.right == null && i < n && a[i] != -1) {
+                cur.right = new TreeNode(a[i]);
+                q.offer(cur.right);
+            }
+            i++;
+        }
+        return root;
+    }
+
+    public static TreeMap<Integer, ArrayList<Integer>> solve(TreeNode root) {
+        TreeMap<Integer, ArrayList<Integer>> mp = new TreeMap<>();
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(root, 0));
+
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+            int curNodeVal = cur.node.val;
+            int HD = cur.dist; // horizontal distance
+
+            mp.putIfAbsent(HD, new ArrayList<>());
+            mp.get(HD).add(curNodeVal);
+
+            if (cur.node.left != null) {
+                q.offer(new Pair(cur.node.left, HD - 1));
+            }
+
+            if (cur.node.right != null) {
+                q.offer(new Pair(cur.node.right, HD + 1));
+            }
+        }
+        return mp;
+    } 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        int n = input.length;
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = Integer.parseInt(input[i]);
+        }
+        
+        TreeNode root = buildTree(a);
+        TreeMap<Integer, ArrayList<Integer>> mp = solve(root);
+        int shelf = 1;
+        for (ArrayList<Integer> val: mp.values()) {
+            System.out.println("Shelf " + shelf + " :" + val);
+            shelf++;
+        }
+        sc.close();
+    }
+}
+
+class TreeNode {
+    TreeNode left;
+    TreeNode right;
+    int val;
+    TreeNode(int val) {
+        this.left = null;
+        this.right = null;
+        this.val = val;
+    }
+}
+
+class Pair {
+    TreeNode node;
+    int dist;
+    Pair(TreeNode node, int dist) {
+        this.node = node;
+        this.dist = dist;
+    }
+}
