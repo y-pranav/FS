@@ -45,3 +45,43 @@ Sample Output-2:
 2 
 */
 
+import java.util.*;
+
+class P5 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        String[] words = sc.nextLine().split(" ");
+        int n = s.length();
+        int m = words.length;
+        
+        int flag = 0, res = 0;
+        for (int i = 0; i < m; i++) {
+            int si = 0, wi = 0;
+            String word = words[i];
+            while (si < n && wi < word.length()) {
+                while (s.charAt(si) == word.charAt(wi)) {
+                    si++;
+                    wi++;
+                }
+                int e1 = 0, e2 = 0;
+                
+                while (s.charAt(si) == word.charAt(wi)) {
+                    si++;
+                    e1++;
+                }
+                while (s.charAt(si) == word.charAt(wi)) {
+                    wi++;
+                    e2++;
+                }
+                if (e2 > e1) {
+                    flag = 1;
+                    break;
+                } 
+            }
+            res += flag == 0 ? 1 : 0;  
+        }
+        System.out.println(res);
+    }
+    
+}
