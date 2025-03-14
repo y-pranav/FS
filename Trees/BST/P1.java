@@ -1,3 +1,4 @@
+package BST;
 /*
 Imagine you're the chief curator at a renowned museum that houses a rare collection 
 of ancient artifacts. These artifacts are arranged in a special display that 

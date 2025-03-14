@@ -1,3 +1,4 @@
+package BST;
 /*
 Imagine you're the curator of an ancient manuscript archive. Each manuscript is
 assigned a unique significance score, and the archive is arranged so that every 
