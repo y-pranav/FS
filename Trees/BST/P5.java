@@ -77,54 +77,51 @@ class P5 {
         return root;
     }
      
-    public static void findLess(Node root, int year, int[] cur) {
-        if (root == null) return;
+    public static int findLess(Node root, int year, int[] closestLow) {
+        if (root == null) return closestLow[0];
         if (root.val == year) {
-            cur[0] = year;
-            return;
+            return year;
         }
         if (root.val < year) {
-            cur[0] = root.val;
-            findLess(root.right, year, cur);
+            closestLow[0] = root.val;
+            return findLess(root.right, year, closestLow);
         } else {
-            findLess(root.left, year, cur);
+            return findLess(root.left, year, closestLow);
         }
     }
 
-    public static void findMore(Node root, int year, int[] cur) {
-        if (root == null) return;
+    public static int findMore(Node root, int year, int[] closestHigh) {
+        if (root == null) return closestHigh[1];
         if (root.val == year) {
-            cur[1] = year;
-            return;
+            return year;
         }
         if (root.val > year) {
-            cur[1] = root.val;
-            findMore(root.left, year, cur);
+            closestHigh[1] = root.val;
+            return findMore(root.left, year, closestHigh);
         } else {
-            findMore(root.right, year, cur);
+            return findMore(root.right, year, closestHigh);
         }
     }
     
     public static void main(String[] args){
-        Scanner sc=new Scanner(System.in);
-        String[] inp1 = sc.nextLine().split(" ");
-        String[] req = sc.nextLine().split(" ");
-        Node root=null;
-        for (int i1 = 0; i1<inp1.length; i1++) {
-            root = insert(root, Integer.parseInt(inp1[i1]));
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        String[] queries = sc.nextLine().split(" ");
+        Node root = null;
+        for (int i = 0; i < input.length; i++) {
+            root = insert(root, Integer.parseInt(input[i]));
         }
         
         ArrayList<ArrayList<Integer>> res=new ArrayList<>();
-        for(String y:req){
-            ArrayList<Integer> curr=new ArrayList<>();
-            int[] cur = {-1, -1};
-            findLess(root, Integer.parseInt(y), cur);
-            curr.add(cur[0]);
-            findMore(root, Integer.parseInt(y), cur);
-            curr.add(cur[1]);
+        for(String q: queries){
+            ArrayList<Integer> curr = new ArrayList<>();
+            int[] values = {-1, -1};
+            curr.add(findLess(root, Integer.parseInt(q), values));
+            curr.add(findMore(root, Integer.parseInt(q), values));
             res.add(curr);
         }
         System.out.println(res);
+        sc.close();
     }
 }
 
