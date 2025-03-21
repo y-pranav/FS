@@ -51,7 +51,7 @@ The in order is : 4 2 5 1 6 3 7
 import java.util.*;
 
 class P1 {
-    public static void inorder(TreeNode root, List<Integer> res) {
+    public static void inorder(Node root, List<Integer> res) {
         if (root == null || root.val == -1) return;
         inorder(root.left, res);
         res.add(root.val);
@@ -68,22 +68,22 @@ class P1 {
             a[i] = sc.nextInt();
         }
 
-        TreeNode root = (a[0] == -1) ? null : new TreeNode(a[0]);
-        Queue<TreeNode> q = new LinkedList<>();
+        Node root = (a[0] == -1) ? null : new Node(a[0]);
+        Queue<Node> q = new LinkedList<>();
         if (root != null) {
             q.offer(root);
         }
 
         i = 1;
         while (!q.isEmpty() && i < n) {
-            TreeNode cur = q.poll();
+            Node cur = q.poll();
             if (i < n) {
-                cur.left = new TreeNode(a[i]);
+                cur.left = new Node(a[i]);
                 q.offer(cur.left);
                 i++;
             }
             if (i < n) {
-                cur.right = new TreeNode(a[i]);
+                cur.right = new Node(a[i]);
                 q.offer(cur.right);
                 i++;
             }
@@ -96,8 +96,8 @@ class P1 {
 }
 
 class TreeNode {
-    TreeNode left;
-    TreeNode right;
+    Node left;
+    Node right;
     int val;
     TreeNode(int val) {
         this.left = null;

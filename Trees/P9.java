@@ -52,4 +52,76 @@ Explanation:
 ------------
 No edegs between 6 and 6.
  
-*/    
+*/
+
+import java.util.*;
+
+public class P9 {
+    public static TreeNode buildTree(int[] a) {
+        Queue<TreeNode> q = new LinkedList<>();
+        TreeNode root = new TreeNode(a[0]);
+        q.offer(root);
+        int i = 1, n = a.length;
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+            if (i < n && a[i] != -1) {
+                cur.left = new TreeNode(a[i]);
+                q.offer(cur.left);
+            } 
+            i++;
+            if (i < n && a[i] != -1) {
+                cur.right = new TreeNode(a[i]);
+                q.offer(cur.right);
+            } 
+            i++;
+        }
+        return root;
+    }
+    public static int solve(TreeNode root, int p, int q) {
+        if (p == q) 
+            return 0;
+            
+        if (root == null) 
+            return -1;
+
+        if (root.val == p || root.val == q) 
+            return 0;
+        
+        int left = solve(root.left, p, q);
+        if (left != -1) 
+            left++;
+        
+        int right = solve(root.right, p, q);
+        if (right != -1) 
+            right++;
+        
+        if (left != -1 && right != -1) 
+            return left + right;
+
+        return left != -1 ? left : right;
+    }
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        int p = sc.nextInt();
+        int q = sc.nextInt();
+        int n = input.length;
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = Integer.parseInt(input[i]);
+        }
+        TreeNode root = buildTree(a);
+        System.out.println(solve(root, p, q));
+        sc.close();
+    }
+}
+class TreeNode {
+    TreeNode left;
+    TreeNode right;
+    int val;
+    TreeNode(int val) {
+        this.left = null;
+        this.right = null;
+        this.val = val;
+    }
+}

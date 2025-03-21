@@ -37,3 +37,78 @@
 // false
 
 
+import java.util.*;
+
+public class P10 {
+    public static TreeNode buildTree(String[] input) {
+        if (input.length == 0 || input[0].equals("-1")) {
+            return null;
+        }
+        
+        int index = 0;
+        TreeNode root = new TreeNode(Integer.parseInt(input[index++]));
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        
+        while (!queue.isEmpty() && index < input.length) {
+            TreeNode current = queue.poll();
+            
+            if (index < input.length && !input[index].equals("-1")) {
+                current.left = new TreeNode(Integer.parseInt(input[index]));
+                queue.offer(current.left);
+            }
+            index++;
+            
+            if (index < input.length && !input[index].equals("-1")) {
+                current.right = new TreeNode(Integer.parseInt(input[index]));
+                queue.offer(current.right);
+            }
+            index++;
+        }
+        
+        return root;
+    }
+    
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isMirror(root.left, root.right);
+    }
+    
+    private boolean isMirror(TreeNode node1, TreeNode node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+        return (node1.val == node2.val) &&
+               isMirror(node1.left, node2.right) &&
+               isMirror(node1.right, node2.left);
+    }
+    
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] input = sc.nextLine().split(" ");
+        TreeNode root = buildTree(input);
+        
+        P10 solution = new P10();
+        boolean result = solution.isSymmetric(root);
+        System.out.println(result);
+        
+        sc.close();
+    }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    
+    TreeNode(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}

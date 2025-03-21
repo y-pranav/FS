@@ -135,11 +135,11 @@ class P19 {
     }
 }
 
-class TreeNode {
+class Node {
   TreeNode left;
   TreeNode right;
   int val;
-  TreeNode(int val) {
+  Node(int val) {
       this.left = null;
       this.right = null;
       this.val = val;
