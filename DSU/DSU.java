@@ -12,6 +12,7 @@ class DSU {
         if (parent[x] != x) {
             parent[x] = find(parent[x]); 
         }
+        return parent[x];
     }
 
     public void union(int x, int y) {

@@ -52,6 +52,27 @@ Note: Look HINT for explanation.
 
 import java.util.*;
 
+public class P2 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        DSU dsu = new DSU(n);
+        int[][] graph = new int[m][2];
+        int c = n;
+        for (int i = 0; i < m; i++) {
+            graph[i][0] = sc.nextInt();
+            graph[i][1] = sc.nextInt();
+            if (dsu.find(graph[i][0]) != dsu.find(graph[i][1])) {
+                dsu.union(graph[i][0], graph[i][1]);
+                c--;
+            }
+        }
+        System.out.println(c);
+    }
+}
+
 class DSU {
     public int[] parent;
 
@@ -76,29 +97,6 @@ class DSU {
         if (rootX != rootY) {
             parent[rootX] = rootY;
         } 
-    }
-}
-
-
-public class P2 {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        
-        DSU dsu = new DSU(n);
-        int[][] graph = new int[m][2];
-        for (int i = 0; i < m; i++) {
-            graph[i][0] = sc.nextInt();
-            graph[i][1] = sc.nextInt();
-            dsu.union(graph[i][0], graph[i][1]);
-        }
-        
-        HashSet<Integer> set = new HashSet<>();
-        for (int i = 0; i < n; i++) {
-            set.add(dsu.find(dsu.parent[i]));
-        }
-        System.out.println(set.size());
     }
 }
 

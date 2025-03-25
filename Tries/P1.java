@@ -52,3 +52,98 @@ Constraints:
 - emailText and each suspicious word consist of lowercase English letters.  
 - All suspicious words are unique.
 */
+
+
+import java.util.*;
+
+class Trie {
+    TrieNode root;
+    Trie() {
+        root = new TrieNode();
+    }
+    public void insert(String word) {
+        TrieNode node = root;
+        for (char ch: word.toCharArray()) {
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                node.children[idx] = new TrieNode();
+            }
+            node = node.children[idx];
+        }
+        node.isEndOfWord = true;
+    }
+    public TrieNode search(String word) {
+        TrieNode node = root;
+        for (char ch: word.toCharArray()) {
+            int idx = ch - 'a';
+            if (node.children[idx] == null) {
+                return null;
+            }
+            node = node.children[idx];
+        }
+        return node;
+    }
+    public boolean found(String word) {
+        TrieNode node = search(word);
+        return node != null && node.isEndOfWord;
+    }
+    public boolean startsWith(String prefix) {
+        TrieNode node = search(prefix);
+        return node != null;
+    }
+
+    // Search all matches starting from index `start` in the string `s`
+    public List<int[]> searchFrom(String s, int start) {
+        List<int[]> matches = new ArrayList<>();
+        TrieNode node = root;
+        for (int i = start; i < s.length(); i++) {
+            int idx = s.charAt(i) - 'a';
+            if (node.children[idx] == null) {
+                break;
+            }
+            node = node.children[idx];
+            if (node.isEndOfWord) {
+                matches.add(new int[]{start, i});
+            }
+        }
+        return matches;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+        String[] words = sc.nextLine().trim().split(" ");
+
+        Trie trie = new Trie();
+
+        for (String word : words) {
+            trie.insert(word);
+        }
+
+        List<int[]> result = new ArrayList<>();
+        for (int i = 0; i < s.length(); i++) {
+            result.addAll(trie.searchFrom(s, i));
+        }
+
+        result.sort((a, b) -> {
+            if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
+            return Integer.compare(a[1], b[1]);
+        });
+
+        for (int[] pair : result) {
+            System.out.println(pair[0] + " " + pair[1]);
+        }
+            sc.close();
+        }
+    }
+
+class TrieNode {
+    TrieNode[] children;
+    int idx;
+    boolean isEndOfWord;
+    TrieNode() {
+        children = new TrieNode[26];
+        idx = 0;
+        isEndOfWord = false;
+    }
+}
