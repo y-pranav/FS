@@ -48,3 +48,36 @@ Constraints:
 - Each orders[i] consists of lowercase English letters.  
 - P is in the range [1, The number of unique dish names in orders]. 
 */
+
+import java.util.*;
+
+class Solution {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] words = sc.nextLine().split(",");
+        int p = sc.nextInt();
+        HashMap<String, Integer> sf = new HashMap<>();
+        for (String word: words) {
+            sf.put(word, sf.getOrDefault(word, 0) + 1);
+        }
+        TreeMap<Integer, ArrayList<String>> fs = new TreeMap<>((a, b) -> Integer.compare(b, a));
+        for (Map.Entry<String, Integer> entry: sf.entrySet()) {
+            String key = entry.getKey();
+            int val = entry.getValue();
+            fs.putIfAbsent(val, new ArrayList<>());
+            fs.get(val).add(key);
+        }
+        int c = 0;
+        OUTER: for (Map.Entry<Integer, ArrayList<String>> entry: fs.entrySet()) { 
+            ArrayList<String> val = entry.getValue();
+            Collections.sort(val, (a, b) -> a.compareTo(b));
+            for (String word: val) {
+                System.out.print(word + " ");
+                c++;
+                if (c == p) {
+                    break OUTER;
+                }
+            }
+        }
+    }
+}

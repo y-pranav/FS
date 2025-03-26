@@ -37,9 +37,9 @@ input structure:
        1
       / \
      2   5
-    / \    \
-   3   4    6
-   
+    / \   \
+   3   4   6
+
 output structure:
 	1
 	 \
@@ -102,6 +102,7 @@ class Solution {
         preOrder(root.left);
         preOrder(root.right);
     }
+
     
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
