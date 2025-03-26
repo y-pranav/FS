@@ -18,9 +18,6 @@
 # from langchain.text_splitter import RecursiveCharacterTextSplitter
 # import os
 
-# # Set your OpenAI API key
-# os.environ["OPENAI_API_KEY"] = "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"
-
 # # 🧾 HR policy as a string (no file I/O)
 # hr_policy_text = """
 # At ABC Corporation, full-time employees are entitled to a total of 20 paid leave days per calendar year, including vacation and casual leaves. Sick leave is limited to 10 days annually and must be accompanied by a valid medical certificate for absences longer than two days. Maternity leave of 90 days is granted to female employees, while paternity leave of 15 days is granted to male employees.
