@@ -47,7 +47,9 @@ class FenwickTree {
         return sum;
     }
     public void build(int[] a) {
-        for (int i = 1; i <= a.length; i++) {
+        for (int i = 1; i <= a.
+        
+        length; i++) {
             update(i, a[i - 1]);
         }
     }
