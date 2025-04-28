@@ -77,7 +77,7 @@ class P5 {
         for (int i = 0; i < n; i++) {
             String rev = new StringBuilder(input[i]).reverse().toString();
             if (!trie.startsWith(rev)) {
-                trie.insert(rev);
+                trie.insert(rev);+
             }
         }
         return dfs(trie.root, 0); // dfs(node, depth)

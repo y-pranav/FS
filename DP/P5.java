@@ -51,42 +51,75 @@ N, N, N, S, C, P, P
 */
 
 import java.util.*;
+public class P5 {
+    // O(K^3) solution
+    public static int solve1(int curLen, int clipLen, int rem, int K, int[][][] memo) {
+        // base case: no more keystrokes
+        if (rem == 0) return curLen;
 
-class Solution {
-    public static int solve(int k, boolean flag) {
-        if (k < 0) return Integer.MIN_VALUE;
-        if (k == 0) return 0;
-        int print = 1 + solve(k - 1, false);
-        int sc = solve(k - 2, true);
-        int printbuf = flag ? print + solve(k - 1, false) : 0;
-        return Math.max(print, Math.max(sc, printbuf));
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int k = sc.nextInt();
-        System.out.println(solve(k, false));
-    }
-}
-
-import java.util.*;
-
-class Solution {
-    public static int solve(int k, int flag, int[][] memo) {
-        if (k < 0) return Integer.MIN_VALUE;
-        if (k == 0) return 0;
-        if (memo[k][flag] != -1) return memo[k][flag];
-        int print = 1 + solve(k - 1, 0, memo);
-        int sc = solve(k - 2, 1, memo);
-        int printbuf = flag == 1 ? print + solve(k - 1, 0, memo) : 0;
-        return memo[k][flag] = Math.max(print, Math.max(sc, printbuf));
-    }
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int k = sc.nextInt();
-        int[][] memo = new int[k + 1][2];
-        for (int i = 0; i < k; i++) {
-            Arrays.fill(memo[i], -1);
+        // only look up / write when curLen, clipLen and rem are ≤ K
+        if (curLen <= K && clipLen <= K && memo[curLen][clipLen][rem] != -1) {
+            return memo[curLen][clipLen][rem];
         }
-        System.out.println(solve(k, 0, memo));
+
+        // Option 1: press N
+        int best = solve1(curLen + 1, clipLen, rem - 1, K, memo);
+
+        // Option 2: select+copy, only if we have at least 2 strokes left
+        if (curLen > 0 && rem >= 2) {
+            best = Math.max(best,
+                solve1(curLen, curLen, rem - 2, K, memo)
+            );
+        }
+
+        // Option 3: paste, only if buffer non-empty
+        if (clipLen > 0) {
+            best = Math.max(best,
+                solve1(curLen + clipLen, clipLen, rem - 1, K, memo)
+            );
+        }
+
+        // store in memo if in bounds
+        if (curLen <= K && clipLen <= K) {
+            memo[curLen][clipLen][rem] = best;
+        }
+        return best;
+    }
+
+    // O(K^2) solution
+    public static int solve2(int K) {
+        if (K <= 0) return 0;
+        int[] dp = new int[K+1];
+
+        for (int i = 1; i <= K; i++) {
+            // Option 1: just type an N
+            dp[i] = dp[i-1] + 1;
+
+            // Option 2: break at j, then S, C, and multiple P
+            // j must be <= i-3
+            for (int j = 1; j <= i - 3; j++) { // For ex: if i = 4, j = 1, then we would have (4 - 1 - 1) = 2-pastes and 1-select and 1-copy. 
+                int pastes = i - j - 2;
+                int candidate = dp[j] * (pastes + 1);
+                dp[i] = Math.max(dp[i], candidate);
+            }
+        }
+        return dp[K];
+    }
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int k = sc.nextInt();
+        int[][][] memo = new int[k + 1][k + 1][k + 1];
+        for (int i = 0; i <= k; i++) {
+            for (int j = 0; j <= k; j++) {
+                Arrays.fill(memo[i][j], -1);
+            }
+        }
+        System.out.println(solve1(0, 0, k, k, memo));
+        System.out.println(solve2(k));
+        sc.close();
     }
 }
+
+
