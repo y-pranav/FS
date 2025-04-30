@@ -76,27 +76,18 @@ class P2 {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int c = sc.nextInt();
+        int sum = 0; 
+        int mx = 0;
         String[] input = sc.next().split(",");
-        int[] a = new int[n];
-        int sum = 0;
         for (int i = 0; i < n; i++) {
-            a[i] = Integer.parseInt(input[i]);
-            sum += a[i];
-        }        
-        
-        int low = sum - c, high = sum;
-        System.out.println("low = " + low + " " + "high = " + high);
-        while (low < high) {
-            int mid = low + (high - low) / 2;
-            System.out.println("mid outside = " + mid);
-            if (Math.abs(mid - sum) <= c) {
-                high = mid;
-                System.out.println("high = mid = " + mid);
-            } else {
-                System.out.println("low = mid + 1 = " + mid);
-                low = mid + 1;
-            }
+            int ele = Integer.parseInt(input[i]);
+            sum += ele;
+            mx = Math.max(mx, ele);
         }
-        System.out.println(low + 1);
+        int saved = Math.min(c, mx);
+        int answer = (sum - saved) + 1;
+
+        System.out.println(answer);
+        sc.close();
     }
 }
