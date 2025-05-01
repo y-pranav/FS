@@ -71,7 +71,7 @@ We can keep 3 items maximum.
 import java.util.*;
 
 
-public class Solution {
+public class P2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
