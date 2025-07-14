@@ -103,7 +103,7 @@ class Solution {
         Scanner sc = new Scanner(System.in);
         String[] words = sc.nextLine().split(" ");
         int n = words.length;
-        Trie trie = new Trie();
+        IndexPairs trie = new IndexPairs();
 
         for (String word : words) {
             trie.insert(word);

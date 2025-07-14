@@ -56,9 +56,9 @@ Constraints:
 
 import java.util.*;
 
-class Trie {
+class IndexPairs {
     TrieNode root;
-    Trie() {
+    IndexPairs() {
         root = new TrieNode();
     }
     public void insert(String word) {
@@ -114,7 +114,7 @@ class Trie {
         String s = sc.nextLine().trim();
         String[] words = sc.nextLine().trim().split(" ");
 
-        Trie trie = new Trie();
+        IndexPairsa trie = new IndexPairsa();
 
         for (String word : words) {
             trie.insert(word);

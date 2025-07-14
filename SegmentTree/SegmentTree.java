@@ -19,36 +19,36 @@ public class SegmentTree {
         tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
     }
 
-    public int rangeQuery(int qlow, int qhigh) {
-        return rangeQuery(qlow, qhigh, 0, n - 1, 0);
+    public int rangeQuery(int l, int r) {
+        return query(0, n - 1, l, r,  0);
     }
 
-    private int rangeQuery(int qlow, int qhigh, int low, int high, int pos) {
-        if (qlow <= low && qhigh >= high) {
-            return tree[pos];
+    private int query(int start, int end, int l, int r, int pos) {
+        if (l <= start && r >= end) {
+            return tree[pos]; 
         }
-        if (qlow > high || qhigh < low) {
-            return 0;
+        if (l > end || r < start) {
+            return 0; 
         }
-        int mid = (low + high) / 2;
-        return rangeQuery(qlow, qhigh, low, mid, 2 * pos + 1) +
-               rangeQuery(qlow, qhigh, mid + 1, high, 2 * pos + 2);
+        int mid = (start + end) / 2;
+        return query(start, mid, l, r, 2 * pos + 1) +
+            query(mid + 1, end, l, r, 2 * pos + 2); 
     }
 
     public void update(int index, int newValue) {
         update(index, newValue, 0, n - 1, 0);
     }
 
-    private void update(int index, int newValue, int low, int high, int pos) {
-        if (low == high) {
+    private void update(int index, int newValue, int start, int end, int pos) {
+        if (start == end) {
             tree[pos] = newValue;
             return;
         }
-        int mid = (low + high) / 2;
+        int mid = (start + end) / 2;
         if (index <= mid) {
-            update(index, newValue, low, mid, 2 * pos + 1);
+            update(index, newValue, start, mid, 2 * pos + 1);
         } else {
-            update(index, newValue, mid + 1, high, 2 * pos + 2);
+            update(index, newValue, mid + 1, end, 2 * pos + 2);
         }
         tree[pos] = tree[2 * pos + 1] + tree[2 * pos + 2];
     }
